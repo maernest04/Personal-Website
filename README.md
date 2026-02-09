@@ -35,12 +35,12 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 | Suit | Chinese | Section | Color |
 |------|---------|---------|-------|
-| Characters (萬子) | 一萬 | About Me | Red |
-| Dots (筒子) | 五筒 | Skills | Blue |
-| Bamboo (索子) | 三索 | Projects | Green |
-| Winds (風牌) | 東風 | Experience | Purple |
-| Dragons (三元牌) | 紅中 | Contact | Red |
-| Flowers (花牌) | 花 | Education | Orange |
+| Characters (萬子) | 萬 | About Me | Red |
+| Bamboo (索子) | 索 | Skills | Green |
+| Dots (筒子) | 筒 | Projects | Blue |
+| Winds (風牌) | 風 | Experience | Blue-grey |
+| Flowers (花牌) | 花 | Contact | Orange |
+| Dragons (三元牌) | 中 | Education | Red |
 
 ## Build
 
