@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import { AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import WinCelebration from '@/components/ui/WinCelebration';
 import SectionOverlay from '@/components/sections/SectionOverlay';
@@ -123,7 +123,7 @@ export default function Home() {
 
   // ─── 3D interactive view ───
   return (
-    <main className="w-screen h-screen overflow-hidden" style={{ background: '#1e3d30' }}>
+    <main className="w-screen h-screen overflow-hidden" style={{ background: '#0f0c0a' }}>
       {/* View toggle — always accessible */}
       <ViewToggle mode="3d" onToggle={handleToggleView} />
 
@@ -133,31 +133,38 @@ export default function Home() {
       </AnimatePresence>
 
       {/* 3D Mahjong Table */}
-      {phase !== 'loading' && (
-        <>
-          <MahjongScene
-            onSelectTile={handleSelectTile}
-            dimmed={phase === 'section'}
-          />
+      <AnimatePresence>
+        {phase !== 'loading' && (
+          <motion.div
+            className="fixed inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, ease: 'easeOut' }}
+          >
+            <MahjongScene
+              onSelectTile={handleSelectTile}
+              dimmed={phase === 'section'}
+            />
 
-          {/* Section Overlay */}
-          <AnimatePresence>
-            {activeSection && (
-              <SectionOverlay
-                sectionId={activeSection}
-                onClose={handleCloseSection}
-                onVisitProject={handleVisitProject}
-              />
-            )}
-          </AnimatePresence>
+            {/* Section Overlay */}
+            <AnimatePresence>
+              {activeSection && (
+                <SectionOverlay
+                  sectionId={activeSection}
+                  onClose={handleCloseSection}
+                  onVisitProject={handleVisitProject}
+                />
+              )}
+            </AnimatePresence>
 
-          {/* Win Celebration */}
-          <WinCelebration
-            show={showWin}
-            level={getFaanLevel(faanState.total)}
-          />
-        </>
-      )}
+            {/* Win Celebration */}
+            <WinCelebration
+              show={showWin}
+              level={getFaanLevel(faanState.total)}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

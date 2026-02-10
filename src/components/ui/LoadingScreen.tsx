@@ -14,18 +14,59 @@ function seededRandom(seed: number): number {
   return x - Math.floor(x);
 }
 
-// Pre-computed tile data using deterministic seeds
-const TILE_DATA = Array.from({ length: 12 }, (_, i) => ({
-  id: i,
-  delay: i * 0.1,
-  x: (seededRandom(i * 3 + 1) - 0.5) * 400,
-  y: (seededRandom(i * 3 + 2) - 0.5) * 300,
-  initialRotate: seededRandom(i * 7 + 3) * 360,
-  midX: (seededRandom(i * 5 + 4) - 0.5) * 200,
-  midY: (seededRandom(i * 5 + 5) - 0.5) * 200,
-  animRotateStart: seededRandom(i * 11 + 6) * 360,
-  animRotateMid: seededRandom(i * 11 + 7) * 180,
-}));
+// Scatter tiles randomly across the viewport but enforce minimum distance so they don't overlap
+const TILE_COUNT = 28;
+const MIN_DIST = 90; // minimum distance between tile centers (tiles are ~52x70, diagonal ~87)
+const SPREAD_X = 1100;
+const SPREAD_Y = 750;
+const CENTER_CLEAR = 180; // keep center clear for text
+
+function generateNonOverlappingTiles() {
+  const tiles: {
+    id: number; delay: number;
+    x: number; y: number; initialRotate: number;
+    midX: number; midY: number;
+    animRotateStart: number; animRotateMid: number;
+  }[] = [];
+
+  let seed = 0;
+  for (let i = 0; i < TILE_COUNT; i++) {
+    let x = 0, y = 0;
+    let attempts = 0;
+
+    // Try random positions until we find one that doesn't overlap
+    do {
+      seed++;
+      x = (seededRandom(seed * 3 + 1) - 0.5) * SPREAD_X;
+      y = (seededRandom(seed * 3 + 2) - 0.5) * SPREAD_Y;
+      attempts++;
+    } while (
+      attempts < 200 &&
+      (
+        // Too close to center text
+        (Math.abs(x) < CENTER_CLEAR && Math.abs(y) < CENTER_CLEAR) ||
+        // Too close to another tile
+        tiles.some(t => Math.hypot(t.x - x, t.y - y) < MIN_DIST)
+      )
+    );
+
+    tiles.push({
+      id: i,
+      delay: i * 0.05,
+      x,
+      y,
+      initialRotate: (seededRandom(i * 7 + 3) - 0.5) * 120, // wide rotation ±60°
+      midX: (seededRandom(i * 5 + 4) - 0.5) * 80,
+      midY: (seededRandom(i * 5 + 5) - 0.5) * 60,
+      animRotateStart: (seededRandom(i * 11 + 6) - 0.5) * 90,
+      animRotateMid: (seededRandom(i * 11 + 7) - 0.5) * 50,
+    });
+  }
+
+  return tiles;
+}
+
+const TILE_DATA = generateNonOverlappingTiles();
 
 // Animated tile shape for the loading screen
 function LoadingTile({
@@ -51,16 +92,16 @@ function LoadingTile({
     <motion.div
       className="absolute rounded-t-md rounded-b-sm"
       style={{
-        width: 40,
-        height: 54,
+        width: 52,
+        height: 70,
         background: COLORS.tileBack,
         border: `1px solid ${COLORS.tileBackLight}`,
-        boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.35)',
       }}
       initial={{ x, y, rotate: initialRotate, opacity: 0, scale: 0 }}
       animate={{
-        x: [x, x + midX, 0],
-        y: [y, y + midY, 0],
+        x: [x, x + midX, x],
+        y: [y, y + midY, y],
         rotate: [animRotateStart, animRotateMid, 0],
         opacity: [0, 1, 0],
         scale: [0, 1.2, 0],

@@ -56,7 +56,7 @@ function CameraRig() {
 
   useFrame(() => {
     const targetX = mouseRef.current.x * 1.5;
-    const targetZ = 8 + mouseRef.current.y * 0.8;
+    const targetZ = 9 + mouseRef.current.y * 0.8;
     camera.position.x += (targetX - camera.position.x) * 0.015;
     camera.position.z += (targetZ - camera.position.z) * 0.015;
     camera.lookAt(0, 0, 0);
@@ -65,10 +65,191 @@ function CameraRig() {
   return null;
 }
 
-// ─── Table Surface (Green Felt + Wood Border) ───
-function TableSurface() {
+// ─── Simple furniture helper: a box with position, size, color, and optional rotation ───
+function Furniture({ pos, size, color, rot }: {
+  pos: [number, number, number];
+  size: [number, number, number];
+  color: string;
+  rot?: [number, number, number];
+}) {
+  return (
+    <mesh position={pos} rotation={rot} castShadow receiveShadow>
+      <boxGeometry args={size} />
+      <meshStandardMaterial color={color} roughness={0.75} />
+    </mesh>
+  );
+}
+
+// ─── Room Environment — furnished mahjong parlor ───
+function RoomEnvironment() {
+  const floorColor = '#3d3028';
+  const wallColor = '#4a3a2e';
+  const wallAccent = '#5a4838'; // wainscoting / lower wall
+  const ceilingColor = '#2e2420';
+  const woodDark = '#3E2723';
+  const woodMed = '#5D4037';
+  const cushion = '#8B1A1A';
+  const cushionDark = '#6B1414';
+  const metalDark = '#2a2a2a';
+
+  // Floor is at y = -4 so table legs are clearly visible
+  const F = -4;
+
   return (
     <group>
+      {/* ── Floor ── */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, F, 0]} receiveShadow>
+        <planeGeometry args={[50, 50]} />
+        <meshStandardMaterial color={floorColor} roughness={0.92} />
+      </mesh>
+      {/* Rug under table */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, F + 0.01, 0]}>
+        <planeGeometry args={[16, 16]} />
+        <meshStandardMaterial color="#1e2a22" roughness={0.95} />
+      </mesh>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, F + 0.02, 0]}>
+        <planeGeometry args={[14.5, 14.5]} />
+        <meshStandardMaterial color="#253028" roughness={0.95} />
+      </mesh>
+
+      {/* ── Walls (extend down to floor) ── */}
+      {/* Back wall */}
+      <mesh position={[0, 5, -20]} receiveShadow>
+        <planeGeometry args={[50, 22]} />
+        <meshStandardMaterial color={wallColor} roughness={0.85} />
+      </mesh>
+      <mesh position={[0, F + 2, -19.99]}>
+        <planeGeometry args={[50, 4]} />
+        <meshStandardMaterial color={wallAccent} roughness={0.8} />
+      </mesh>
+      {/* Left wall */}
+      <mesh position={[-20, 5, 0]} rotation={[0, Math.PI / 2, 0]} receiveShadow>
+        <planeGeometry args={[50, 22]} />
+        <meshStandardMaterial color={wallColor} roughness={0.85} />
+      </mesh>
+      <mesh position={[-19.99, F + 2, 0]} rotation={[0, Math.PI / 2, 0]}>
+        <planeGeometry args={[50, 4]} />
+        <meshStandardMaterial color={wallAccent} roughness={0.8} />
+      </mesh>
+      {/* Right wall */}
+      <mesh position={[20, 5, 0]} rotation={[0, -Math.PI / 2, 0]} receiveShadow>
+        <planeGeometry args={[50, 22]} />
+        <meshStandardMaterial color={wallColor} roughness={0.85} />
+      </mesh>
+      <mesh position={[19.99, F + 2, 0]} rotation={[0, -Math.PI / 2, 0]}>
+        <planeGeometry args={[50, 4]} />
+        <meshStandardMaterial color={wallAccent} roughness={0.8} />
+      </mesh>
+
+      {/* Ceiling */}
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 14, 0]}>
+        <planeGeometry args={[50, 50]} />
+        <meshStandardMaterial color={ceilingColor} roughness={1} />
+      </mesh>
+
+      {/* ── Overhead lamp ── */}
+      <mesh position={[0, 11, 0]}>
+        <cylinderGeometry args={[0.6, 2.2, 1.0, 32, 1, true]} />
+        <meshStandardMaterial color={metalDark} roughness={0.6} side={THREE.DoubleSide} />
+      </mesh>
+      <mesh position={[0, 10.45, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.5, 2.2, 32]} />
+        <meshStandardMaterial color="#ffe4b5" emissive="#ffe4b5" emissiveIntensity={0.3} />
+      </mesh>
+      <mesh position={[0, 12.5, 0]}>
+        <cylinderGeometry args={[0.03, 0.03, 2, 8]} />
+        <meshStandardMaterial color={metalDark} roughness={0.9} />
+      </mesh>
+
+      {/* ── 4 Chairs around the table ── */}
+      {/* Groups shifted down Y so seat is visibly below table (y=0).
+          Floor = F (-4). Chairs are bigger to match table proportions. */}
+      {[
+        { p: [0, -1.5, 8] as [number, number, number], r: [0, Math.PI, 0] as [number, number, number] },
+        { p: [0, -1.5, -8] as [number, number, number], r: [0, 0, 0] as [number, number, number] },
+        { p: [-8, -1.5, 0] as [number, number, number], r: [0, Math.PI / 2, 0] as [number, number, number] },
+        { p: [8, -1.5, 0] as [number, number, number], r: [0, -Math.PI / 2, 0] as [number, number, number] },
+      ].map((chair, ci) => {
+        // All Y coords are LOCAL to the group (which is at world y = -1.5)
+        // So local y=0 = world y=-1.5, meaning seat at local 0 → world -1.5
+        const floorLocal = F - (-1.5);  // floor in local coords = -4 - (-1.5) = -2.5
+        const seatTop = 0;              // seat top at local 0 → world -1.5
+        const seatH = 0.25;             // seat board thickness
+        const cushH = 0.18;             // cushion
+        const legSz = 0.25;             // thicker legs
+        const W = 3.8;                  // wider seat
+        const D = 3.4;                  // deeper seat
+        const backTop = 3.5;            // tall backrest (world y = -1.5 + 3.5 = 2.0)
+        const ix = W / 2 - 0.18;
+        const iz = D / 2 - 0.18;
+
+        const fH = (seatTop - seatH) - floorLocal;  // front leg height
+        const fCY = floorLocal + fH / 2;
+        const bH = backTop - floorLocal;              // back leg height
+        const bCY = floorLocal + bH / 2;
+
+        return (
+          <group key={`chair-${ci}`} position={chair.p} rotation={chair.r}>
+            {/* Front legs */}
+            <Furniture pos={[-ix, fCY, iz]} size={[legSz, fH, legSz]} color={woodDark} />
+            <Furniture pos={[ix, fCY, iz]} size={[legSz, fH, legSz]} color={woodDark} />
+            {/* Back legs (tall, form backrest uprights) */}
+            <Furniture pos={[-ix, bCY, -iz]} size={[legSz, bH, legSz]} color={woodDark} />
+            <Furniture pos={[ix, bCY, -iz]} size={[legSz, bH, legSz]} color={woodDark} />
+
+            {/* Stretchers near floor */}
+            <Furniture pos={[-ix, floorLocal + 0.5, 0]} size={[0.14, 0.14, D - 0.3]} color={woodDark} />
+            <Furniture pos={[ix, floorLocal + 0.5, 0]} size={[0.14, 0.14, D - 0.3]} color={woodDark} />
+            <Furniture pos={[0, floorLocal + 0.5, iz]} size={[W - 0.3, 0.14, 0.14]} color={woodDark} />
+            <Furniture pos={[0, floorLocal + 0.5, -iz]} size={[W - 0.3, 0.14, 0.14]} color={woodDark} />
+
+            {/* Seat board */}
+            <Furniture pos={[0, seatTop - seatH / 2, 0]} size={[W, seatH, D]} color={woodMed} />
+            {/* Seat cushion */}
+            <Furniture pos={[0, seatTop + cushH / 2, 0]} size={[W - 0.12, cushH, D - 0.12]} color={cushion} />
+
+            {/* Backrest top rail */}
+            <Furniture pos={[0, backTop - 0.12, -iz]} size={[W - 0.1, 0.24, legSz]} color={woodDark} />
+            {/* Backrest mid rail */}
+            <Furniture pos={[0, seatTop + 0.7, -iz]} size={[W - 0.1, 0.18, legSz]} color={woodDark} />
+            {/* Backrest cushion */}
+            <Furniture pos={[0, (seatTop + 0.7 + backTop - 0.12) / 2, -iz + 0.05]} size={[W - 0.35, (backTop - 0.12) - (seatTop + 0.7) - 0.18, 0.16]} color={cushionDark} />
+          </group>
+        );
+      })}
+
+      {/* ── Warm pool of light on floor under table ── */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, F + 0.03, 0]}>
+        <circleGeometry args={[10, 64]} />
+        <meshStandardMaterial color="#2a1f0a" transparent opacity={0.15} roughness={1} />
+      </mesh>
+    </group>
+  );
+}
+
+// ─── Table Surface (Green Felt + Wood Border) ───
+// Floor at y = -4. Table surface at y ≈ 0. Legs clearly visible.
+function TableSurface() {
+  const floor = -4;
+  const tableUnderside = -0.15;
+  const legH = tableUnderside - floor;     // ~3.85
+  const legCY = floor + legH / 2;
+
+  return (
+    <group>
+      {/* Table legs — tall, from floor to table underside */}
+      {[
+        [-5.6, legCY, -5.6],
+        [5.6, legCY, -5.6],
+        [-5.6, legCY, 5.6],
+        [5.6, legCY, 5.6],
+      ].map((pos, i) => (
+        <mesh key={`leg-${i}`} position={pos as [number, number, number]}>
+          <boxGeometry args={[0.5, legH, 0.5]} />
+          <meshStandardMaterial color={COLORS.darkWood} roughness={0.7} />
+        </mesh>
+      ))}
+
       {/* Green felt */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]} receiveShadow>
         <planeGeometry args={[12, 12]} />
@@ -361,7 +542,7 @@ function CenterTiles({ onSelect }: { onSelect: (id: string) => void }) {
 // ─── Center Table Content (name/title, positioned above tiles) ───
 function CenterContent() {
   return (
-    <Html center position={[0, 1.2, -1.0]} style={{ pointerEvents: 'none' }}>
+    <Html center position={[0, 2.2, -1.2]} style={{ pointerEvents: 'none' }}>
       <div className="text-center select-none" style={{ width: '320px', textShadow: '0 2px 8px rgba(0,0,0,0.7)' }}>
         <h1
           className="text-4xl md:text-5xl font-bold tracking-tight"
@@ -383,8 +564,8 @@ function Scene({ onSelectTile }: { onSelectTile: (id: string) => void }) {
     <>
       <CameraRig />
 
-      {/* Lighting — bright, warm, well-lit table */}
-      <ambientLight intensity={0.6} />
+      {/* Lighting — brighter warm parlor */}
+      <ambientLight intensity={0.7} color="#fff0e0" />
       <directionalLight
         position={[5, 14, 5]}
         intensity={1.0}
@@ -398,18 +579,38 @@ function Scene({ onSelectTile }: { onSelectTile: (id: string) => void }) {
         shadow-camera-top={12}
         shadow-camera-bottom={-12}
       />
-      {/* Warm overhead fill */}
-      <pointLight position={[0, 8, 0]} intensity={0.4} color="#fff8e7" />
-      {/* Corner fills — warm white to avoid green tint */}
-      <pointLight position={[-5, 5, -5]} intensity={0.2} color="#fffaed" />
-      <pointLight position={[5, 5, -5]} intensity={0.2} color="#fffaed" />
+      {/* Main overhead lamp — focused warm cone on the table */}
+      <spotLight
+        position={[0, 13, 0]}
+        angle={0.8}
+        penumbra={0.5}
+        intensity={5.0}
+        color="#ffe4b5"
+        castShadow
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+        target-position={[0, 0, 0]}
+      />
+      {/* Secondary overhead fill */}
+      <pointLight position={[0, 10, 0]} intensity={1.2} color="#fff0d0" />
+      {/* Corner fills — brighter */}
+      <pointLight position={[-6, 6, -6]} intensity={0.5} color="#ffe4b5" />
+      <pointLight position={[6, 6, -6]} intensity={0.5} color="#ffe4b5" />
+      <pointLight position={[-6, 6, 6]} intensity={0.3} color="#ffe4b5" />
+      <pointLight position={[6, 6, 6]} intensity={0.3} color="#ffe4b5" />
       {/* Front fill (camera side) */}
-      <pointLight position={[0, 5, 6]} intensity={0.25} color="#fff8e7" />
-      {/* Subtle under-light to illuminate wall faces */}
-      <pointLight position={[0, 2, 0]} intensity={0.15} color="#fffaed" />
+      <pointLight position={[0, 5, 8]} intensity={0.5} color="#ffe4b5" />
+      {/* Under-light for tile readability */}
+      <pointLight position={[0, 2, 0]} intensity={0.4} color="#fff0d0" />
+      {/* Under-table light so legs and chairs are visible */}
+      <pointLight position={[0, -2, 0]} intensity={0.4} color="#ffe8d0" />
+      <pointLight position={[0, -2, 6]} intensity={0.3} color="#ffe8d0" />
 
-      {/* Fog — subtle, pushed far back */}
-      <fog attach="fog" args={['#1e3d30', 16, 35]} />
+      {/* Fog — pushed back */}
+      <fog attach="fog" args={['#1e1814', 35, 60]} />
+
+      {/* Room environment */}
+      <RoomEnvironment />
 
       {/* Table */}
       <TableSurface />
@@ -443,14 +644,14 @@ export default function MahjongScene({ onSelectTile, dimmed }: MahjongSceneProps
       }}
     >
       <Canvas
-        camera={{ position: [0, 10, 8], fov: 50, near: 0.1, far: 60 }}
+        camera={{ position: [0, 10, 6], fov: 50, near: 0.1, far: 65 }}
         shadows
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: false }}
         onCreated={({ gl }) => {
-          gl.setClearColor('#1e3d30');
+          gl.setClearColor('#1e1814');
           gl.toneMapping = THREE.ACESFilmicToneMapping;
-          gl.toneMappingExposure = 1.3;
+          gl.toneMappingExposure = 1.8;
         }}
       >
         <Scene onSelectTile={onSelectTile} />
