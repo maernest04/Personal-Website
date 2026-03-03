@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import TileCard from '@/components/ui/TileCard';
 import { RESUME, COLORS } from '@/lib/constants';
 
+const RESUME_PDF_HREF = "/Ernest%27s%20Resume.pdf";
+
 function ContactCard({
   contact,
   index,
@@ -91,6 +93,61 @@ export default function ContactSection() {
         <span className="cn-text" style={{ color: COLORS.greenDragon }}>發</span>{' '}
         <span className="cn-text" style={{ color: COLORS.bambooBlue }}>白</span> — each open a path to connect.
       </motion.p>
+
+      <TileCard accentColor={COLORS.bambooBlue} className="mb-4">
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <h3 className="text-lg font-bold" style={{ color: '#3E2723' }}>
+              Resume
+            </h3>
+            <p className="text-sm mt-1" style={{ color: '#5D4037' }}>
+              View in a new tab or download the PDF.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-2 shrink-0">
+            <a
+              href={RESUME_PDF_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-2 rounded-lg text-sm font-semibold transition-colors"
+              style={{
+                background: 'rgba(21, 101, 192, 0.12)',
+                border: `1px solid ${COLORS.bambooBlue}55`,
+                color: COLORS.bambooBlue,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(21, 101, 192, 0.20)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(21, 101, 192, 0.12)';
+              }}
+            >
+              View
+            </a>
+            <a
+              href={RESUME_PDF_HREF}
+              download
+              className="px-3 py-2 rounded-lg text-sm font-semibold transition-colors"
+              style={{
+                background: COLORS.bambooBlue,
+                border: `1px solid ${COLORS.bambooBlue}`,
+                color: COLORS.offWhite,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#0F4FA0';
+                e.currentTarget.style.borderColor = '#0F4FA0';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = COLORS.bambooBlue;
+                e.currentTarget.style.borderColor = COLORS.bambooBlue;
+              }}
+            >
+              Download
+            </a>
+          </div>
+        </div>
+      </TileCard>
 
       <div className="grid gap-4">
         {RESUME.contact.map((contact, i) => (

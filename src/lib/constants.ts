@@ -202,30 +202,24 @@ export const RESUME = {
 
   projects: [
     {
+      name: 'FitRoom AI',
+      tech: 'TypeScript, Node.js/Express, Chrome Extension, Gemini API',
+      bullets: [
+        'AI-powered try-on platform combining a Chrome extension, Node/Express backend, and web dashboard where users upload a face photo, generate Gemini-edited try-on images, and replace them in-page.',
+      ],
+    },
+    {
+      name: 'Collab Code',
+      tech: 'TypeScript, VS Code Extension API, Liveblocks, Yjs',
+      bullets: [
+        'Real-time collaborative VS Code/Cursor extension using Yjs CRDTs and Liveblocks for conflict-free multi-user editing with synchronized cursors, selections, presence, and shared-key onboarding.',
+      ],
+    },
+    {
       name: 'Gift Match',
       tech: 'Flutter (Dart), Firebase, NoSQL',
       bullets: [
-        'Full-stack Flutter gift-discovery app with Firebase Auth, Firestore real-time sync, and Tinder-style swipe UI',
-        'Personalized ML-style recommendation pipeline using swipe-event embeddings and category narrowing',
-        'Cross-platform deployment on web, Android, and iOS with secure backend rules',
-      ],
-    },
-    {
-      name: 'SJ-Bay',
-      tech: 'React, Node.js / Express, Firebase, NoSQL',
-      bullets: [
-        'Full-stack e-commerce marketplace with responsive UI and comprehensive product search/filtering',
-        'Secure authentication integrating Firebase Auth restricted to verified SJSU.edu emails',
-        'Backend API with Cloud Firestore for real-time NoSQL storage and Multer for image handling',
-      ],
-    },
-    {
-      name: 'AI PC Builder Chatbot',
-      tech: 'Python, OpenAI API, React',
-      bullets: [
-        'LangGraph-powered chatbot with FastAPI + SQLite3 backend for persistent sessions and builds',
-        'Modern React frontend (Vite + TypeScript + Tailwind) with multi-session chat',
-        'Build summary/export and clickable part links for easy PC component shopping',
+        'Full-stack Flutter gift recommendation app with Firebase Auth/Firestore, real-time sync, swipe-based matching, and personalized suggestions from swipe embeddings and category filters, deployed to web, Android, and iOS.',
       ],
     },
   ],
