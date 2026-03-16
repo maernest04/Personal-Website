@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import TileCard from '@/components/ui/TileCard';
 import { RESUME, COLORS } from '@/lib/constants';
 
-const RESUME_PDF_HREF = "/Ernest%27s%20Resume.pdf";
+const RESUME_PDF_HREF = "/Ernest%20Ma%27s%20Resume.pdf";
 
 function ContactCard({
   contact,

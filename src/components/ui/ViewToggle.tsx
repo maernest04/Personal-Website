@@ -8,9 +8,39 @@ interface ViewToggleProps {
   onToggle: () => void;
 }
 
+const RESUME_PDF_HREF = "/Ernest%20Ma%27s%20Resume.pdf";
+
 export default function ViewToggle({ mode, onToggle }: ViewToggleProps) {
   return (
-    <div className="fixed top-0 right-4 md:right-8 z-50 h-14 flex items-center">
+    <div className="fixed top-0 right-4 md:right-8 z-50 h-14 flex items-center gap-2">
+      <motion.a
+        href={RESUME_PDF_HREF}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-2 px-4 py-2 rounded-xl cursor-pointer"
+        style={{
+          background: 'rgba(10, 26, 15, 0.9)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid rgba(21, 101, 192, 0.35)',
+          color: COLORS.textSecondary,
+        }}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.25 }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = 'rgba(21, 101, 192, 0.65)';
+          e.currentTarget.style.color = COLORS.textPrimary;
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = 'rgba(21, 101, 192, 0.35)';
+          e.currentTarget.style.color = COLORS.textSecondary;
+        }}
+      >
+        <span className="cn-text text-sm leading-none" style={{ color: COLORS.bambooBlue }}>
+          白
+        </span>
+        <span className="text-xs font-medium leading-none">Resume</span>
+      </motion.a>
       <motion.button
         className="flex items-center gap-2 px-4 py-2 rounded-xl cursor-pointer"
         style={{
