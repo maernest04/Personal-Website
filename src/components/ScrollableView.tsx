@@ -14,7 +14,8 @@ interface ScrollableViewProps {
 }
 
 // Section order for the scrollable layout
-const SECTION_ORDER = ['about', 'experience', 'education', 'projects', 'skills', 'contact'];
+// About + Education are combined into a single section in list view
+const SECTION_ORDER = ['about', 'experience', 'projects', 'skills', 'contact'];
 
 // Small decorative mahjong tile wrapper for the hero divider
 function TileIcon({ children, border }: { children: React.ReactNode; border: boolean }) {
@@ -80,11 +81,15 @@ function SectionBlock({ sectionId, children, index }: { sectionId: string; child
 
 export default function ScrollableView({ onVisitProject }: ScrollableViewProps) {
   const sectionComponents: Record<string, React.ReactNode> = {
-    about: <AboutSection />,
+    about: (
+      <div className="space-y-8">
+        <EducationSection />
+        <AboutSection />
+      </div>
+    ),
     experience: <ExperienceSection />,
     skills: <SkillsSection />,
     projects: <ProjectsSection onVisitProject={onVisitProject} />,
-    education: <EducationSection />,
     contact: <ContactSection />,
   };
 
@@ -157,7 +162,9 @@ export default function ScrollableView({ onVisitProject }: ScrollableViewProps) 
             {/* Quick links */}
             <div className="flex items-center justify-center gap-5 mt-8">
               <a
-                href={`mailto:${RESUME.email}`}
+                href="/Ernest Ma's Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-base md:text-lg px-6 py-3 rounded-xl transition-colors font-medium"
                 style={{
                   background: `${COLORS.redDragon}20`,
@@ -165,7 +172,7 @@ export default function ScrollableView({ onVisitProject }: ScrollableViewProps) 
                   border: `1px solid ${COLORS.redDragon}40`,
                 }}
               >
-                <span className="cn-text mr-1.5 text-xl">中</span> Email
+                <span className="cn-text mr-1.5 text-xl">中</span> Resume
               </a>
               <a
                 href={`https://${RESUME.linkedin}`}

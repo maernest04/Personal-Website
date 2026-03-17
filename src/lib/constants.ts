@@ -128,16 +128,6 @@ export const RESUME = {
     dates: 'Aug. 2024 – Dec. 2026',
     location: 'San Jose, CA',
     gpa: '3.95',
-    coursework: [
-      'Data Structures & Algorithms',
-      'RTOS Embedded Systems',
-      'Microprocessor Design',
-      'Operating Systems',
-      'Database Systems',
-      'Mobile Software Engineering',
-      'Computer Networks',
-      'Digital Design',
-    ],
   },
 
   skills: {
@@ -202,24 +192,31 @@ export const RESUME = {
 
   projects: [
     {
+      name: 'SJSU Safeline',
+      tech: 'Nemotron, FastAPI, React/Vite, LangChain, SQLite',
+      bullets: [
+        'Agentic AI support assistant that triages student messages and recommends SJSU or national support resources.',
+      ],
+    },
+    {
       name: 'FitRoom AI',
       tech: 'TypeScript, Node.js/Express, Chrome Extension, Gemini API',
       bullets: [
-        'AI-powered try-on platform combining a Chrome extension, Node/Express backend, and web dashboard where users upload a face photo, generate Gemini-edited try-on images, and replace them in-page.',
+        'AI-powered Chrome extension for virtual try-on images directly on shopping pages.',
       ],
     },
     {
       name: 'Collab Code',
       tech: 'TypeScript, VS Code Extension API, Liveblocks, Yjs',
       bullets: [
-        'Real-time collaborative VS Code/Cursor extension using Yjs CRDTs and Liveblocks for conflict-free multi-user editing with synchronized cursors, selections, presence, and shared-key onboarding.',
+        'Real-time collaborative IDE extension with shared cursors, selections, and presence.',
       ],
     },
     {
       name: 'Gift Match',
       tech: 'Flutter (Dart), Firebase, NoSQL',
       bullets: [
-        'Full-stack Flutter gift recommendation app with Firebase Auth/Firestore, real-time sync, swipe-based matching, and personalized suggestions from swipe embeddings and category filters, deployed to web, Android, and iOS.',
+        'Flutter gift recommendation app with swipe-based matching and personalized suggestions.',
       ],
     },
   ],

@@ -36,28 +36,7 @@ export default function EducationSection() {
         </div>
       </TileCard>
 
-      {/* Coursework */}
-      <div>
-        <motion.h3
-          className="text-sm font-medium uppercase tracking-wider mb-3"
-          style={{ color: COLORS.textSecondary }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
-          Relevant Coursework
-        </motion.h3>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {RESUME.education.coursework.map((course, i) => (
-            <TileCard key={course} delay={0.25 + i * 0.04}>
-              <p className="text-sm font-medium" style={{ color: '#3E2723' }}>
-                {course}
-              </p>
-            </TileCard>
-          ))}
-        </div>
-      </div>
+      {/* Coursework removed (no longer displayed) */}
     </div>
   );
 }

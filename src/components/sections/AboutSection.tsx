@@ -31,17 +31,6 @@ export default function AboutSection() {
 
   return (
     <div className="space-y-6">
-      {/* Bio */}
-      <motion.p
-        className="text-base md:text-lg leading-relaxed"
-        style={{ color: COLORS.textPrimary }}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-      >
-        {RESUME.about}
-      </motion.p>
-
       {/* 3 highlight cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
         {highlights.map((h, i) => (
