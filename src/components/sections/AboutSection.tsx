@@ -18,14 +18,14 @@ export default function AboutSection() {
       labelColor: COLORS.greenDragon,
       accentColor: COLORS.greenDragon,
       title: 'Current Work',
-      value: 'Building fun software & hardware projects',
+      value: 'Software Engineer Intern at SJSU College of Engineering',
     },
     {
       label: '西',
       labelColor: COLORS.bambooBlue,
       accentColor: COLORS.bambooBlue,
       title: 'Core Skills',
-      value: 'Python, C / C++, Verilog, SQL',
+      value: 'Go, Python, Kubernetes, PyTorch',
     },
   ];
 

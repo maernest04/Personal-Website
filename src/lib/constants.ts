@@ -131,10 +131,10 @@ export const RESUME = {
   },
 
   skills: {
-    languages: ['Go', 'Python', 'SQL', 'C++', 'Verilog', 'Dart', 'x86 Assembly', 'C', 'C#', 'Java'],
-    frameworks: ['React/Vite', 'Next.js', 'Node.js', 'FastAPI', 'Flutter', 'LangGraph', 'LangChain'],
-    tools: ['Git', 'Docker', 'Kafka', 'Firebase', 'Vercel', 'Fly', 'Vivado', 'Quartus', 'ModelSim', 'Linux'],
-    databases: ['MongoDB', 'Redis', 'SQLite', 'Firebase Firestore', 'ChromaDB'],
+    languages: ['Go', 'Python', 'SQL', 'C++', 'C', 'C#', 'Java', 'Dart', 'Verilog', 'x86 Assembly'],
+    frameworks: ['PyTorch', 'LangGraph', 'MCP', 'FastAPI', 'Flutter', 'React/Vite', 'LangChain'],
+    tools: ['Git', 'Kubernetes', 'Docker', 'Helm', 'ClearML', 'Prometheus', 'AWS (EC2)', 'Kafka', 'Vercel', 'Fly', 'Linux'],
+    databases: ['MongoDB', 'Redis', 'Firebase', 'SQLite', 'ChromaDB'],
   },
 
   experience: [
@@ -143,17 +143,32 @@ export const RESUME = {
       windEn: 'East',
       company: 'KLA',
       role: 'Software Engineer Intern',
-      dates: 'May 2025 – Aug. 2025',
+      dates: 'May 2026 – Aug. 2026',
       location: 'Ann Arbor, MI',
       bullets: [
-        'Developed a troubleshooting agent using LangGraph, FastAPI, and Gemma 3 / GPT-4o to assist field engineers.',
-        'Reduced machinery downtime by 80% by automating parsing of complex system logs and enabling natural language queries.',
-        'Engineered a RAG pipeline with ChromaDB to accelerate historical log retrieval from hours to sub-second results.',
+        'Accelerated physics-ML training via PyTorch DDP + ClearML on Kubernetes, achieving 3.9x speedup on 4 GPUs (98% efficiency).',
+        'Engineered a Kubernetes AI agent (kagent + MCP + Prometheus) with 12 custom tools for health scans, alert triage, and reports.',
+        'Built a React/FastAPI dashboard with Prometheus for 5+ K8s clusters (3k+ pods), ClearML experiments, and VMware inventory.',
+        'Standardized a LangGraph template and Kubernetes deployment workflows, reducing a project cycle from weeks to days.',
       ],
     },
     {
       wind: '南',
       windEn: 'South',
+      company: 'KLA',
+      role: 'Software Engineer Intern',
+      dates: 'May 2025 – Aug. 2025',
+      location: 'Ann Arbor, MI',
+      bullets: [
+        'Built a troubleshooting agent using LangGraph, FastAPI, and Gemma 3 / GPT-4o to assist field engineers.',
+        'Reduced machinery downtime by 80% by automating parsing of complex system logs and enabling natural language queries.',
+        'Engineered a RAG pipeline with ChromaDB to accelerate historical log retrieval from hours to sub-second results.',
+        'Deployed and configured an AWS EC2 (Linux) environment, optimizing for sub-second retrieval and 99.9% uptime.',
+      ],
+    },
+    {
+      wind: '西',
+      windEn: 'West',
       company: 'SJSU College of Engineering',
       role: 'Software Engineer Intern',
       dates: 'Jan. 2026 – Present',
@@ -165,11 +180,11 @@ export const RESUME = {
       ],
     },
     {
-      wind: '西',
-      windEn: 'West',
+      wind: '北',
+      windEn: 'North',
       company: 'Spartan Racing: Formula SAE',
       role: 'Software Engineer Intern',
-      dates: 'Jan. 2026 – Present',
+      dates: 'Jan. 2026 – May 2026',
       location: 'San Jose, CA',
       bullets: [
         'Expanded a C-based Hardware in Loop injection system for testing using CAN protocols for real-time VCU validation.',
@@ -178,21 +193,18 @@ export const RESUME = {
         'Verified Launch Control accuracy by hand-calculating torque outputs against parameterized test cases.',
       ],
     },
-    {
-      wind: '北',
-      windEn: 'North',
-      company: 'KLA',
-      role: 'Student Ambassador',
-      dates: 'Jan. 2026 – Present',
-      location: 'San Jose, CA',
-      bullets: [
-        'Represented and spread awareness of KLA at campus recruiting / club events, info sessions, and career fairs.',
-        'Coordinated with KLA recruiters to organize networking events to increase student participation with 100+ attendees.',
-      ],
-    },
   ],
 
   projects: [
+    {
+      name: 'PatchBench',
+      tech: 'Python, pytest, Docker, YAML',
+      bullets: [
+        'Built an executable benchmark to measure whether AI code reviewers detect regressions that pass visible tests',
+        'Designed an 18-task Python corpus with 36 correct and regression patches, test isolation, and Docker-based replay',
+        'Implemented a CLI reviewer harness for structured findings and deterministic detection, false-positive, and inconclusive scoring',
+      ],
+    },
     {
       name: 'SJSU Safeline',
       tech: 'Nemotron, FastAPI, React / Vite, LangChain, SQLite',
@@ -219,15 +231,6 @@ export const RESUME = {
         'Built a real-time collaborative IDE extension using Yjs CRDTs and Liveblocks for multi-user editing and room sessions',
         'Implemented synchronized cursors, selections, and presence indicators with document binding and local-origin filtering',
         'Created account-less shared-key onboarding and automated VSIX packaging for seamless cross-editor distribution',
-      ],
-    },
-    {
-      name: 'Pokewatcher',
-      tech: 'Python, FastAPI, BeautifulSoup4, APScheduler, Discord API',
-      bullets: [
-        'Programmed an autonomous eBay Pokemon Card watcher for FastAPI system and Discord alerts API',
-        'Architected a pipeline processing 10,000+ daily listings, utilizing BeautifulSoup4 to scrap for pricing',
-        'Enhanced system performance and security by implementing Fernet-encrypted credential storage and automated data lifecycle jobs, reducing database storage overhead by 40% through stale telemetry cleanup.',
       ],
     },
   ],
