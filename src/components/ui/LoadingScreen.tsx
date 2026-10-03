@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { COLORS } from '@/lib/constants';
 
 interface LoadingScreenProps {
+  onReveal: () => void;
   onComplete: () => void;
 }
 
@@ -115,16 +116,22 @@ function LoadingTile({
   );
 }
 
-export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
+const FADE_MS = 1450;
+
+export default function LoadingScreen({ onReveal, onComplete }: LoadingScreenProps) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const start = setTimeout(() => {
       setVisible(false);
-      setTimeout(onComplete, 500);
+      onReveal();
     }, 2800);
-    return () => clearTimeout(timer);
-  }, [onComplete]);
+    const done = setTimeout(onComplete, 2800 + FADE_MS);
+    return () => {
+      clearTimeout(start);
+      clearTimeout(done);
+    };
+  }, [onReveal, onComplete]);
 
   return (
     <AnimatePresence>
@@ -133,10 +140,14 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
           className="fixed inset-0 z-50 flex items-center justify-center"
           style={{ background: COLORS.bg }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 1.15, ease: [0.4, 0, 0.2, 1], delay: 0.25 }}
         >
           {/* Background tiles animation */}
-          <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center overflow-hidden"
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          >
             {TILE_DATA.map((tile) => (
               <LoadingTile
                 key={tile.id}
@@ -150,10 +161,14 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
                 animRotateMid={tile.animRotateMid}
               />
             ))}
-          </div>
+          </motion.div>
 
           {/* Center content */}
-          <div className="relative z-10 text-center">
+          <motion.div
+            className="relative z-10 text-center"
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -173,7 +188,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
               transition={{ delay: 0.8, duration: 0.6 }}
             >
               <p className="text-lg mt-4" style={{ color: COLORS.textSecondary }}>
-                Computer Engineer
+                Software Engineer
               </p>
             </motion.div>
 
@@ -207,7 +222,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
                 transition={{ delay: 1.2, duration: 1.5, ease: 'easeInOut' }}
               />
             </motion.div>
-          </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

@@ -35,6 +35,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [faanState, setFaanState] = useState<FaanState>(createInitialFaanState);
   const [showWin, setShowWin] = useState(false);
+  const [tableRevealed, setTableRevealed] = useState(false);
 
   // Initialize sound manager
   useEffect(() => {
@@ -58,9 +59,13 @@ export default function Home() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  const handleRevealTable = useCallback(() => {
+    setTableRevealed(true);
+    SoundManager.playShuffle();
+  }, []);
+
   const handleLoadingComplete = useCallback(() => {
     setPhase('table');
-    SoundManager.playShuffle();
   }, []);
 
   const handleSelectTile = useCallback((sectionId: string) => {
@@ -129,22 +134,23 @@ export default function Home() {
 
       {/* Loading Screen */}
       <AnimatePresence>
-        {phase === 'loading' && <LoadingScreen onComplete={handleLoadingComplete} />}
+        {phase === 'loading' && (
+          <LoadingScreen onReveal={handleRevealTable} onComplete={handleLoadingComplete} />
+        )}
       </AnimatePresence>
 
-      {/* 3D Mahjong Table */}
-      <AnimatePresence>
-        {phase !== 'loading' && (
-          <motion.div
-            className="fixed inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, ease: 'easeOut' }}
-          >
-            <MahjongScene
-              onSelectTile={handleSelectTile}
-              dimmed={phase === 'section'}
-            />
+      {/* 3D Mahjong Table — mounted under the loader so the reveal is a crossfade */}
+      <motion.div
+        className="fixed inset-0"
+        initial={false}
+        animate={{ scale: tableRevealed || phase !== 'loading' ? 1 : 1.04 }}
+        transition={{ duration: 1.45, ease: [0.22, 1, 0.36, 1] }}
+        style={{ pointerEvents: phase === 'loading' ? 'none' : 'auto', transformOrigin: 'center center' }}
+      >
+        <MahjongScene
+          onSelectTile={handleSelectTile}
+          dimmed={phase === 'section'}
+        />
 
             {/* Section Overlay */}
             <AnimatePresence>
@@ -162,9 +168,7 @@ export default function Home() {
               show={showWin}
               level={getFaanLevel(faanState.total)}
             />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </motion.div>
     </main>
   );
 }

@@ -18,7 +18,7 @@ export default function AboutSection() {
       labelColor: COLORS.greenDragon,
       accentColor: COLORS.greenDragon,
       title: 'Current Work',
-      value: 'Software Engineer Intern at SJSU College of Engineering',
+      value: 'Software Engineer Intern at KLA',
     },
     {
       label: '西',

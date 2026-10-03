@@ -69,7 +69,7 @@ export default function SkillsSection() {
           delay={0.1}
         />
         <SkillGroup
-          title="Tools & Platforms"
+          title="Infrastructure & Cloud"
           titleCn="二"
           skills={RESUME.skills.tools}
           color="#6A1B9A"

@@ -551,7 +551,7 @@ function CenterContent() {
           Ernest Ma
         </h1>
         <p className="text-lg mt-2" style={{ color: 'rgba(255, 255, 255, 0.85)' }}>
-          Computer Engineer
+          Software Engineer
         </p>
       </div>
     </Html>
