@@ -147,9 +147,9 @@ export const RESUME = {
       location: 'Ann Arbor, MI',
       bullets: [
         'Accelerated physics-ML training via PyTorch DDP + ClearML on Kubernetes, scaling 3.9× throughput on 4 GPUs (98% efficiency).',
-        'Engineered a Kubernetes AI agent (kagent + MCP + Prometheus) with 12 custom tools for health scans, alert triage, and reports.',
+        'Deployed a Kubernetes AI agent (kagent + MCP + Prometheus) with 12 custom tools for health scans, alert triage, and reports.',
         'Built a React/FastAPI dashboard with PostgreSQL and Prometheus for K8s clusters, ClearML experiments, and VMware.',
-        'Standardized a LangGraph template and Kubernetes deployment workflows, reducing a project cycle from weeks to days.',
+        'Standardized a LangGraph template and Kubernetes deployment workflows, enabling build-to-deploy in a 2-hour test.',
       ],
     },
     {
@@ -160,10 +160,9 @@ export const RESUME = {
       dates: 'May 2025 – Aug. 2025',
       location: 'Ann Arbor, MI',
       bullets: [
-        'Built a troubleshooting agent using LangGraph, FastAPI, and Gemma 3 / GPT-4o to assist field engineers.',
-        'Reduced machinery downtime by 80% by automating parsing of complex system logs and enabling natural language queries.',
-        'Engineered a RAG pipeline with ChromaDB to accelerate historical log retrieval from hours to sub-second results.',
-        'Deployed and configured an AWS EC2 (Linux) environment, optimizing for sub-second retrieval and 99.9% uptime.',
+        'Built a log-based troubleshooting agent using LangGraph, FastAPI, and Gemma 3 / GPT-4o to assist field engineers.',
+        'Replaced hours of manual historical-log searching with sub-second retrieval using a ChromaDB RAG pipeline.',
+        'Deployed and configured the troubleshooting application on AWS EC2 (Linux) for 99.9% uptime field access.',
       ],
     },
     {
@@ -174,9 +173,9 @@ export const RESUME = {
       dates: 'Jan. 2026 – May 2026',
       location: 'San Jose, CA',
       bullets: [
-        'Architected a Go/Gin event service processing registrations and waitlists for 1k+ concurrent users via a MongoDB backend.',
+        'Architected a Go/Gin event service for 1k+ users with MongoDB for event registrations, waitlists, and registration forms.',
         'Mitigated data races during 10k+ write/sec spikes by implementing Redis concurrency locks and optimized caching strategies.',
-        'Orchestrated a Kafka event-driven pipeline to decouple API requests from registration processing, ensuring strong scalability.',
+        'Orchestrated a Kafka event-driven pipeline to decouple API requests from background registration processing.',
       ],
     },
     {
@@ -187,7 +186,7 @@ export const RESUME = {
       dates: 'Jan. 2026 – May 2026',
       location: 'San Jose, CA',
       bullets: [
-        'Expanded a C-based Hardware in Loop injection system for testing using CAN protocols for real-time VCU validation.',
+        'Expanded a C-based hardware-in-the-loop injection system for testing using CAN protocols for real-time VCU validation.',
         'Developed a Python HIL test suite utilizing state machines to manage complex CAN communication sessions.',
         'Synchronized automated telemetry validation to ensure data consistency during high-speed testing cycles.',
         'Verified Launch Control accuracy by hand-calculating torque outputs against parameterized test cases.',
@@ -197,12 +196,21 @@ export const RESUME = {
 
   projects: [
     {
+      name: 'Ticker Trace',
+      tech: 'Python, FastAPI, Redis Streams, PostgreSQL, Next.js, Docker',
+      bullets: [
+        'Built an asyncio stock-execution simulator streaming live Alpaca data through distributed Redis Streams processing workers',
+        'Processed 120K generated events at 200/sec with 8.06 ms p95 persistence latency and zero lost or duplicate market events',
+        'Built a Next.js replay lab with immutable recordings, quote-linked fills, and first-divergence latency comparisons',
+      ],
+    },
+    {
       name: 'Agent Faultline',
       tech: 'Rust, Python, MCP, PostgreSQL, Docker, OpenTelemetry',
       bullets: [
-        'Built Rust/Python MCP benchmarks across 2 PostgreSQL environments with 5 deterministic tool-fault types for agent recovery',
-        'Engineered a Rust proxy and scoring pipeline; validated 10K idempotency and deployment attempts for error detection',
-        'Added scoped stdio/HTTP MCP support; validated safe timeout recovery with a filesystem server under fault injection',
+        'Built Rust / Python MCP benchmarks with 5 fault types across PostgreSQL-backed payment and deployment environments',
+        'Engineered a Rust proxy and scoring pipeline; verified idempotency and revision guards in 10K-attempt tests',
+        'Added scoped stdio / HTTP MCP support with capability checks, fault injection, and trace-based recovery reports',
       ],
     },
     {
@@ -221,15 +229,6 @@ export const RESUME = {
         'Built a real-time collaborative IDE extension using Yjs CRDTs and Liveblocks for multi-user editing and room sessions',
         'Implemented synchronized cursors, selections, and presence indicators with document binding and local-origin filtering',
         'Created account-less shared-key onboarding and automated VSIX packaging for seamless cross-editor distribution',
-      ],
-    },
-    {
-      name: 'SJSU Safeline',
-      tech: 'Nemotron, FastAPI, React / Vite, LangChain, SQLite',
-      bullets: [
-        'Built an agentic AI assistant using NVIDIA Nemotron and FastAPI to automate crisis triaging and personalized resource routing',
-        'Architected a reasoning pipeline with LangChain function-calling for urgency assessment and real-time resource retrieval',
-        'Implemented a multi-stage workflow to provide 24/7 student support through generating personalized outreach scripts',
       ],
     },
   ],
