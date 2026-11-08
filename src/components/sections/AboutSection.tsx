@@ -11,21 +11,21 @@ export default function AboutSection() {
       labelColor: COLORS.redDragon,
       accentColor: COLORS.redDragon,
       title: 'Focus',
-      value: 'Software Engineering, Embedded and Low-Level Programming',
+      value: 'Software engineering, distributed systems, and AI infrastructure',
     },
     {
       label: '南',
       labelColor: COLORS.greenDragon,
       accentColor: COLORS.greenDragon,
-      title: 'Current Work',
-      value: 'Software Engineer Intern at KLA',
+      title: 'Recent Experience',
+      value: 'KLA, SJSU College of Engineering, and Spartan Racing',
     },
     {
       label: '西',
       labelColor: COLORS.bambooBlue,
       accentColor: COLORS.bambooBlue,
       title: 'Core Skills',
-      value: 'Go, Python, Kubernetes, PyTorch',
+      value: 'Go, Python, Kubernetes, PyTorch, PostgreSQL, Kafka',
     },
   ];
 

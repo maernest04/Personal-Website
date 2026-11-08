@@ -131,10 +131,10 @@ export const RESUME = {
   },
 
   skills: {
-    languages: ['Go', 'Python', 'C++', 'C', 'SQL', 'C#', 'Java', 'Dart', 'Verilog', 'x86 Assembly'],
-    frameworks: ['FastAPI', 'React', 'PyTorch', 'LangGraph', 'LangChain', 'Flutter', 'Yjs (CRDTs)'],
-    tools: ['Kubernetes', 'Docker', 'Helm', 'AWS (EC2)', 'ClearML', 'Prometheus', 'Kafka', 'Linux'],
-    databases: ['PostgreSQL', 'MongoDB', 'Redis', 'ChromaDB', 'Firebase'],
+    languages: ['Python', 'Go', 'TypeScript', 'Rust', 'SQL', 'C++', 'C', 'Java'],
+    frameworks: ['FastAPI', 'React', 'Gin', 'PyTorch', 'LangGraph', 'Yjs', 'Next.js'],
+    tools: ['Kubernetes', 'Docker', 'AWS EC2', 'Kafka', 'Redis Streams', 'Prometheus', 'OpenTelemetry', 'Helm', 'Linux'],
+    databases: ['PostgreSQL', 'MongoDB', 'Redis', 'SQLite', 'ChromaDB'],
   },
 
   experience: [
@@ -205,6 +205,15 @@ export const RESUME = {
       ],
     },
     {
+      name: 'AfterHours',
+      tech: 'Python, FastAPI, TypeScript, React, SpacetimeDB, SQLite, Docker',
+      bullets: [
+        'Built Bitdeer / Factory agents with scoped email and attachment tools to identify accrual errors and cite supporting evidence',
+        'Enabled evidence search across 100K Enron emails and 43K attachment texts using SQLite FTS5; measured 234 ms p95 locally',
+        'Used SpacetimeDB job leases, retries, and revision guards to recover interrupted work and reject stale agent results',
+      ],
+    },
+    {
       name: 'Agent Faultline',
       tech: 'Rust, Python, MCP, PostgreSQL, Docker, OpenTelemetry',
       bullets: [
@@ -220,15 +229,6 @@ export const RESUME = {
         'Built an executable benchmark to measure whether AI code reviewers detect regressions that pass visible tests',
         'Designed an 18-task Python corpus with 36 correct and regression patches, test isolation, and Docker-based replay',
         'Implemented a CLI reviewer harness for structured findings and deterministic detection, false-positive, and inconclusive scoring',
-      ],
-    },
-    {
-      name: 'Collab Code',
-      tech: 'TypeScript, VS Code Extension API, Liveblocks, Yjs',
-      bullets: [
-        'Built a real-time collaborative IDE extension using Yjs CRDTs and Liveblocks for multi-user editing and room sessions',
-        'Implemented synchronized cursors, selections, and presence indicators with document binding and local-origin filtering',
-        'Created account-less shared-key onboarding and automated VSIX packaging for seamless cross-editor distribution',
       ],
     },
   ],
